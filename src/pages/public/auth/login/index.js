@@ -4,7 +4,7 @@ import {
     Form,
     Input
 } from 'antd';
-import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
+import { EyeTwoTone, EyeInvisibleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 // import TextField from '@mui/material/TextField';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Link } from 'react-router-dom';
+import LoginForm from '../../../../components/login';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import moment from 'moment';
@@ -21,7 +22,7 @@ import moment from 'moment';
 const styles = {
     header: "",
     header_content: "",
-    logo: ""
+    logo: "",
 };
 
 const tokenLoading = false;
@@ -45,9 +46,14 @@ export default class Login extends Component {
 
         return (
             <ThemeProvider theme={theme}>
-                <Grid container component="main" sx={{ height: '100vh' }} style={{ backgroundColor: "#282c34"}}>
+                <Grid container component="main" sx={{ height: '100vh' }} style={{ backgroundColor: "#282c34" }}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight="100vh"
+                >
                     <CssBaseline />
-                    <Grid
+                    {/* <Grid
                         item
                         xs={false}
                         sm={3}
@@ -57,64 +63,14 @@ export default class Login extends Component {
                         //     backgroundSize: 'cover',
                         //     backgroundPosition: 'center',
                         // }}
-                    />
-                    <Grid item xs={12} sm={6} md={4} component={Paper} elevation={8} square>
-                        <Box
-                            sx={{ my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-                        >
-                            <div className={styles.header}>
-                                <div className={styles.header_content}>
-                                    <div className={styles.logo}>
-                                        <Link to="/">
-                                            <img src="logo.png" alt="Logo" style={{ width: "50px" }} />
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                {tokenLoading ? (
-                                <h4 className="text-uppercase" style={{ textAlign: 'center' }}>
-                                    <strong>Carregando...</strong>
-                                </h4>
-                                ) : (
-                                <Form layout="vertical" hideRequiredMark onSubmit={this.onSubmit}>
-                                    <Form.Item label="E-mail" fullWidth autoFocus>
-                                        <Input size="default" />
-                                    </Form.Item>
-                                    <span data-icon="ant-design:eye-outlined" />
-                                    <Form.Item label="Senha">
-                                        <Input.Password
-                                            iconRender={visible =>
-                                                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                                            }
-                                        />
-                                    </Form.Item>
-                                    <div className={styles.formBox}>
-                                        <Button
-                                            type="primary"
-                                            htmlType="submit"
-                                            fullWidth
-                                            variant="contained"
-                                            sx={{ mt: 3, mb: 2 }}
-                                        // loading={loading}
-                                        >
-                                            Entrar
-                                        </Button>
-                                    </div>
-                                </Form>
-                                )}
-                            </div>
-                            <Grid container>
-                                <Grid item xs>
-                                    <div className={styles.boxForgot}>
-                                        {/* <Link to="/forgot">Esqueceu sua senha?</Link> */}
-                                    </div>
-                                </Grid>
-                            </Grid>
-                            <span className={styles.footer}>
-                                Trading Robot &copy; {anoAtual} - Todos os direitos reservados.
-                            </span>
-                        </Box>
+                    /> */}
+                    <Grid item xs={12} sm={6} md={4} component={Paper} elevation={2} square display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        // minHeight="100vh"
+                        height='0vh'
+                    >
+                        <LoginForm />
                     </Grid>
                 </Grid>
             </ThemeProvider>
