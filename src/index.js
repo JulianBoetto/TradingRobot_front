@@ -7,20 +7,19 @@ import 'antd/dist/antd.css';
 // import LoginLayout from './layouts/Login';
 import Layout from './layout';
 import Login from './pages/public/auth/login';
-import Orders from './pages/orders/orders';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Router>
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/orders' element={<Layout />} />
       </Routes>
     </Router>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

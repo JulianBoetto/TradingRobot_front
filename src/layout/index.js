@@ -69,6 +69,7 @@ const PrincipalLayout = () => (
           style={{
             padding: 24,
             margin: 0,
+            maxHeight: "100vh"
           }}
         >
           <Orders>            
