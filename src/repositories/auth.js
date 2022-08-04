@@ -10,6 +10,7 @@ const fetchData = async (url, method, accessToken, body, headers = {}) => {
 
   const params = { method, headers };
   if (body) {
+    console.log(body)
     params.body = JSON.stringify(body);
   }
 
@@ -26,6 +27,7 @@ const fetchData = async (url, method, accessToken, body, headers = {}) => {
 export default class Auth {
   static signInWithEmailAndPassword = async (email, password) =>
     fetchData(`${apiUrl}/auth`, 'POST', null, { email, password });
+    // console.log(email, password)
 
   static signOut = async accessToken =>
     fetchData(`${apiUrl}/auth`, 'DELETE', accessToken, {})

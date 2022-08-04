@@ -1,37 +1,135 @@
-import { Container, Row, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin, Button, Checkbox, Form, Input } from 'antd';
+import Auth from "../../repositories/auth";
+import colours from "../../lib/colours"
 
-function LoginForm() {
-    return (
-        <Container fluid>
-            <Form>
-                <Row className="mb-5">
-                    <Col className='text-center'>
-                        <img src='logo.png' className='img-fluid img-thumbnail center-block' style={{ maxWidth: "100px" }}></img>
-                    </Col>
-                </Row>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" />
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
+const antIcon = (
+    <LoadingOutlined
+        style={{
+            fontSize: 24,
+        }}
+        spin
+    />
+);
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
+const onFinish = (values) => {
+    console.log('Success:', values);
+};
+
+const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+};
+
+export default class LoginForm extends React.Component {
+    state = {
+        email: "",
+        password: "",
+        loading: true
+    };
+
+    onSubmit = async (event) => {
+        event.preventDefault();
+        const login = await Auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+    };
+
+
+
+
+
+    render() {
+        const {
+            loading
+        } = this.state
+
+
+        return (
+            <Form
+                name="basic"
+                // labelCol={{
+                //     span: 8,
+                // }}
+                // wrapperCol={{
+                //     span: 16,
+                // }}
+                initialValues={{
+                    remember: true,
+                }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
+            >
+
+                <Form.Item style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <img
+                        src='logo.png'
+                        style={{
+                            width: "150px",
+                        }}>
+                    </img>
+                </Form.Item>
+                <Form.Item
+                    // label="Username"
+                    name="username"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your username!',
+                        },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    // label="Password"
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your password!',
+                        },
+                    ]}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Input.Password />
+                </Form.Item>
+
+                {/* <Form.Item
+                    name="remember"
+                    valuePropName="checked"
+                    wrapperCol={{
+                        offset: 8,
+                        span: 16,
+                    }}
+                >
+                    <Checkbox>Remember me</Checkbox>
+                </Form.Item> */}
+
+                <Form.Item
+                    wrapperCol={{
+                        // offset: 8,
+                        // span: 16,
+                    }}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Button ghost htmlType="submit">
+                        Submit
+                    </Button>
+                </Form.Item>
             </Form>
-        </Container>
-    );
-}
-
-export default LoginForm;
+        );
+    }
+};
