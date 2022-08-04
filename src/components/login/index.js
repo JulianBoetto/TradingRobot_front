@@ -1,17 +1,6 @@
 import React from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
-import { Spin, Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import Auth from "../../repositories/auth";
-import colours from "../../lib/colours"
-
-const antIcon = (
-    <LoadingOutlined
-        style={{
-            fontSize: 24,
-        }}
-        spin
-    />
-);
 
 const onFinish = (values) => {
     console.log('Success:', values);
@@ -46,12 +35,6 @@ export default class LoginForm extends React.Component {
         return (
             <Form
                 name="basic"
-                // labelCol={{
-                //     span: 8,
-                // }}
-                // wrapperCol={{
-                //     span: 16,
-                // }}
                 initialValues={{
                     remember: true,
                 }}
@@ -73,7 +56,6 @@ export default class LoginForm extends React.Component {
                     </img>
                 </Form.Item>
                 <Form.Item
-                    // label="Username"
                     name="username"
                     rules={[
                         {
@@ -86,7 +68,6 @@ export default class LoginForm extends React.Component {
                 </Form.Item>
 
                 <Form.Item
-                    // label="Password"
                     name="password"
                     rules={[
                         {
@@ -103,22 +84,7 @@ export default class LoginForm extends React.Component {
                     <Input.Password />
                 </Form.Item>
 
-                {/* <Form.Item
-                    name="remember"
-                    valuePropName="checked"
-                    wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                    }}
-                >
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item> */}
-
                 <Form.Item
-                    wrapperCol={{
-                        // offset: 8,
-                        // span: 16,
-                    }}
                     style={{
                         display: 'flex',
                         alignItems: 'center',

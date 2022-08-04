@@ -2,4 +2,8 @@ const primary = {
     gray: "#282c34"
 };
 
-module.exports = { primary }
+const menu = {
+    green: "#112123"
+}
+
+module.exports = { primary, menu }

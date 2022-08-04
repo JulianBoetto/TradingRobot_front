@@ -5,7 +5,9 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
 // import App from './App';
 // import LoginLayout from './layouts/Login';
+import Layout from './layout';
 import Login from './pages/public/auth/login';
+import Orders from './pages/orders/orders';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -15,6 +17,7 @@ root.render(
     <Router>
       <Routes>
         <Route path='/' element={<Login />} />
+        <Route path='/orders' element={<Layout />} />
       </Routes>
     </Router>
   </React.StrictMode>
