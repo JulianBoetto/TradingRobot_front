@@ -1,80 +1,119 @@
-import { Button, PageHeader, Row, Statistic, Tag, notification } from 'antd'
-import React, { Component } from 'react';
-import OrdersRepository from '../../repositories/orders';
+import React from "react";
+import "antd/dist/antd.css";
+import { Table, notification, Skeleton } from "antd";
+import OrdersRepository from "../../repositories/orders"
 
+export default class Orders extends React.Component {
+  state = {
+    orders: [],
+    loading: true
+  }
 
-export default class Orders extends Component {
-    state = {
-        ordersData: [],
-    };
+  componentDidMount() {
+    this.getOrders();
+  };
 
-    componentDidMount() {
-        this.getOrders();
-    };
+  getOrders = async () => {
+    OrdersRepository.getOrders()
+      .then(data => {
+        if(data)
+        this.setState({
+          orders: data,
+          loading: false
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: `Erro: ${error}`,
+        });
+      })
+      .finally(() => {
+      });
+  }
 
-    getOrders = async () => {
-        OrdersRepository.getOrders()
-            .then(data => {
-                console.log(data)
-                this.setState({
-                    ordersData: data
-                })
-            })
-            .catch(error => {
-                notification.error({
-                    message: `Erro: ${error}`,
-                });
-            })
-            .finally(() => {
-            });
-    }
+  render() {
+    const {
+      orders,
+      loading
+    } = this.state;
+    
+    const columns = [
+      {
+        title: "Date",
+        dataIndex: "formatTime",
+        sorter: true,
+        render: formatTime => formatTime,
+        width: "20%"
+      },
+      {
+        title: "Pair",
+        dataIndex: "symbol",
+        sorter: true,
+        render: symbol => symbol,
+        // filters: [
+        //   { text: "Male", value: "male" },
+        //   { text: "Female", value: "female" }
+        // ],
+        width: "20%"
+      },
+      {
+        title: "Side",
+        dataIndex: "side",
+        sorter: true,
+        render: side => side,
+        // filters: [
+        //   { text: "Male", value: "male" },
+        //   { text: "Female", value: "female" }
+        // ],
+        width: "20%"
+      }, {
+        title: "Price",
+        dataIndex: "price",
+        sorter: true,
+        render: price => price,
+        // filters: [
+        //   { text: "Male", value: "male" },
+        //   { text: "Female", value: "female" }
+        // ],
+        width: "20%"
+      },
+      {
+        title: "Amount",
+        dataIndex: "origQty",
+        sorter: true,
+        render: amount => amount,
+        // filters: [
+        //   { text: "Male", value: "male" },
+        //   { text: "Female", value: "female" }
+        // ],
+        width: "20%"
+      },
+      {
+        title: "Total",
+        dataIndex: "total",
+        sorter: true,
+        render: total => total,
+        // filters: [
+        //   { text: "Male", value: "male" },
+        //   { text: "Female", value: "female" }
+        // ],
+        width: "20%"
+      },
+    ];
 
-
-
-    render() {
-        const {
-            ordersData
-        } = this.state;
-
-        const details = () =>
-            ordersData.map(order => (
-                <PageHeader
-                    onBack={() => window.history.back()}
-                    title={order.symbol}
-                    tags={<Tag color="blue">Running</Tag>}
-                    subTitle="This is a subtitle"
-                    extra={[
-                        <Button key="3">Operation</Button>,
-                        <Button key="2">Operation</Button>,
-                        <Button key="1" type="primary">
-                            Primary
-                        </Button>,
-                    ]}
-                    key={order.clientOrderId}
-                >
-                    <Row>
-                        <Statistic title="Status" value={order.side} />
-                        <Statistic
-                            title="Price"
-                            prefix="$"
-                            value={order.price}
-                            style={{
-                                margin: '0 32px',
-                            }}
-                        />
-                        <Statistic title="Balance" prefix="$" value={3345.08} />
-                    </Row>
-                </PageHeader>
-            ))
-
-
-
-        return (
-            <div style={{
-                // backgroundColor: "red"
-            }}>
-                {details()}
-            </div>
-        );
-    }
+    return (
+      <>
+        {loading ? (
+          <Skeleton active/>
+        ) : (
+          <Table
+            columns={columns}
+            rowKey={orders => orders.orderId}
+            dataSource={orders}
+            pagination={false}
+          />
+        )}
+      </>
+    );
+  }
 };

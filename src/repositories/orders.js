@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { apiUrl } from '../defaultValues';
+import { notification } from "antd"
 
 export default class Orders {
   static getOrders = async (datas, accessToken) => {
@@ -8,9 +9,14 @@ export default class Orders {
       'Content-Type': 'application/json',
     };
 
-    return await axios
-      .post(`${apiUrl}/orders`, datas, { headers })
-      .then(response => response.data)
-      .catch(err => console.log(err));
+    try {
+      const res = await axios.post(`${apiUrl}/orders`, datas, { headers });
+
+      return res.data;
+    } catch (error) {
+      notification.error({
+        message: `Erro: ${error}`,
+      });
+    }
   };
 };

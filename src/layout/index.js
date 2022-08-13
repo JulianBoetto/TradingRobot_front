@@ -2,7 +2,7 @@ import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/
 import { Breadcrumb, Layout, Menu } from 'antd';
 import React from 'react';
 import Orders from '../pages/orders/orders';
-import colours from "../lib/colours"
+import colours from "../lib/colours";
 
 
 const { Header, Content, Sider } = Layout;
@@ -72,7 +72,9 @@ const PrincipalLayout = () => (
             maxHeight: "100vh"
           }}
         >
-          <Orders>            
+          <Orders
+            teste={"teste"}
+          >            
           </Orders>
         </Content>
       </Layout>
