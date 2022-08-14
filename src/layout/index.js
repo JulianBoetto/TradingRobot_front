@@ -32,7 +32,6 @@ const Loader = (path) => {
   // }
 
   var group = path.split("/")[2]
-  console.log(group, path)
   switch (path) {
     case "/orders":
       return <Orders></Orders>;      

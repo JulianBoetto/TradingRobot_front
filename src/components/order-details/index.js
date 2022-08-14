@@ -1,6 +1,7 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Table, notification, Skeleton, Tag, Card } from "antd";
+import { Table, Skeleton, Tag, Card, Tabs, Spin } from "antd";
+const { TabPane } = Tabs;
 
 
 export default class OrderDetails extends React.Component {
@@ -10,7 +11,9 @@ export default class OrderDetails extends React.Component {
       price,
       loadingOrder,
       historic,
-      totalValue
+      totalValue,
+      loadingWebsocket,
+      actualPrice,
     } = this.props;
 
     const columns = [
@@ -65,22 +68,31 @@ export default class OrderDetails extends React.Component {
           <Skeleton active />
         ) : (
           <>
-            <Table
-              columns={columns}
-              dataSource={historic}
-              pagination={{
-                pageSize: 50,
-              }}
-              rowKey={orders => orders.id}
-              scroll={{
-                y: 240,
-              }}
-            />
-
-            <Card type="inner" title="Total" style={ totalValue < 0 ? {color:'red'} : {color:'green'}}>
-              $ {totalValue} USDT
-            </Card>
-
+            <Tabs defaultActiveKey="1" type="card" size={"small"}>
+              <TabPane tab="Historic Orders" key="1">
+                <Table
+                  columns={columns}
+                  dataSource={historic}
+                  pagination={{
+                    pageSize: 50,
+                  }}
+                  rowKey={orders => orders.id}
+                  scroll={{
+                    y: 240,
+                  }}
+                />
+                <Card type="inner" title="Total" style={totalValue < 0 ? { color: 'red' } : { color: 'green' }}>
+                  $ {totalValue} USDT
+                </Card>
+              </TabPane>              
+              <TabPane
+                tab="Actual value"
+                key="2"
+                disabled={loadingWebsocket}
+              >
+                {actualPrice}
+              </TabPane>
+            </Tabs>
           </>
         )}
       </>

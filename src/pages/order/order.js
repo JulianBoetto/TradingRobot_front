@@ -1,9 +1,6 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Table, notification, Skeleton, Tag, Button } from "antd";
-import OrdersRepository from "../../repositories/orders";
-import { Link } from 'react-router-dom';
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { Skeleton} from "antd";
 
 
 
@@ -29,10 +26,6 @@ export default class Order extends React.Component {
       order,
       loadingOrder
     } = this.state;
-
-    const {
-      teste
-    } = this.props;
 
     return (
       <>

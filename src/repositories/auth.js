@@ -10,7 +10,6 @@ const fetchData = async (url, method, accessToken, body, headers = {}) => {
 
   const params = { method, headers };
   if (body) {
-    console.log(body)
     params.body = JSON.stringify(body);
   }
 

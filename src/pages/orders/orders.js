@@ -4,8 +4,7 @@ import { Table, notification, Skeleton, Tag, Button, Spin, Modal } from "antd";
 import OrdersRepository from "../../repositories/orders";
 import { Link, BrowserRouter } from 'react-router-dom';
 import OrderDetails from "../../components/order-details";
-
-
+let ws;
 
 export default class Orders extends React.Component {
   state = {
@@ -20,11 +19,45 @@ export default class Orders extends React.Component {
     actualPrice: 0,
     historic: [],
     totalValue: 0,
+    loadingWebsocket: true,
+
   }
 
   componentDidMount() {
     this.getOrders();
   };
+
+  onConnectWS(symbol) {
+    ws = new WebSocket(`wss://stream.binance.com:9443/ws/ticker`);
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        "method": "SUBSCRIBE",
+        "params": [
+          `${symbol.toLowerCase()}@aggTrade`
+        ],
+        "id": 1
+      }));
+    };
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.p) {
+        this.setState({ actualPrice: data.p, loadingWebsocket: false});
+      }
+
+    }
+
+    ws.onerror = (event) => {
+      console.log(event)
+      alert(`[error] ${event.message}`);
+    };
+
+  };
+
+  cancelWebsocket() {
+    ws.close();
+    this.setState({ loadingWebsocket: true })
+  }
 
 
   getOrders = async () => {
@@ -47,7 +80,9 @@ export default class Orders extends React.Component {
   };
 
   getOrder = async (symbol) => {
+    this.onConnectWS(symbol)
     const order = this.state.orders.find(order => order.symbol === symbol)
+
     this.setState({ loadingOrder: true, titleModal: symbol, visible: true })
     OrdersRepository.getOrder(symbol, order)
       .then(data => {
@@ -59,7 +94,6 @@ export default class Orders extends React.Component {
             loadingOrder: false
           })
         }
-        console.log(data)
       })
       .catch(error => {
         notification.error({
@@ -75,10 +109,12 @@ export default class Orders extends React.Component {
   };
 
   handleOk = () => {
+    this.cancelWebsocket()
     this.setState({ visible: false, confirmLoading: false })
   };
 
   handleCancel = () => {
+    this.cancelWebsocket()
     this.setState({ visible: false })
   };
 
@@ -93,7 +129,8 @@ export default class Orders extends React.Component {
       modalText,
       actualPrice,
       historic,
-      totalValue
+      totalValue,
+      loadingWebsocket
     } = this.state;
 
     const columns = [
@@ -144,7 +181,7 @@ export default class Orders extends React.Component {
       {
         title: "Total",
         dataIndex: "total",
-        render: total => `${total} USDT`,
+        render: total => `${total}`,
         width: "20%"
       },
       {
@@ -180,6 +217,8 @@ export default class Orders extends React.Component {
                   price={actualPrice}
                   historic={historic}
                   totalValue={totalValue}
+                  loadingWebsocket={loadingWebsocket}
+                  actualPrice={actualPrice}
                 />
               )}
             </Modal>
