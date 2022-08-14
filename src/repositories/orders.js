@@ -10,7 +10,24 @@ export default class Orders {
     };
 
     try {
-      const res = await axios.post(`${apiUrl}/orders`, datas, { headers });
+      const res = await axios.get(`${apiUrl}/orders`, datas, { headers });
+
+      return res.data;
+    } catch (error) {
+      notification.error({
+        message: `Erro: ${error}`,
+      });
+    }
+  };
+
+  static getOrder = async (symbol, order) => {
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+
+    try {
+      const res = await axios.post(`${apiUrl}/order/${symbol}`, order, { headers });
 
       return res.data;
     } catch (error) {

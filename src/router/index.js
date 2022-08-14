@@ -1,6 +1,6 @@
 import React from 'react';
 // import RouteAuthorization from './authorizer';
-import IndexLayout from '../layouts';
+import IndexLayout from '../layout/index';
 
 
 class Router extends React.Component {

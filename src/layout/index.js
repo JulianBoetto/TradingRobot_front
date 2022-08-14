@@ -2,6 +2,7 @@ import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/
 import { Breadcrumb, Layout, Menu } from 'antd';
 import React from 'react';
 import Orders from '../pages/orders/orders';
+import Order from '../pages/order/order';
 import colours from "../lib/colours";
 
 
@@ -25,6 +26,25 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, i
     }),
   };
 });
+
+const Loader = (path) => {
+  // if (path === "/orders") {
+  // }
+
+  var group = path.split("/")[2]
+  console.log(group, path)
+  switch (path) {
+    case "/orders":
+      return <Orders></Orders>;      
+      // break;
+
+    
+  
+    default:
+      return <Order></Order>
+      // break;
+  }
+};
 
 const PrincipalLayout = () => (
   <Layout
@@ -62,7 +82,7 @@ const PrincipalLayout = () => (
           }}
         >
           <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>Orders</Breadcrumb.Item>
+          <Breadcrumb.Item>Open orders</Breadcrumb.Item>
         </Breadcrumb>
         <Content
           className="site-layout-background"
@@ -72,10 +92,7 @@ const PrincipalLayout = () => (
             maxHeight: "100vh"
           }}
         >
-          <Orders
-            teste={"teste"}
-          >            
-          </Orders>
+          {Loader(window.location.pathname)}
         </Content>
       </Layout>
     </Layout>

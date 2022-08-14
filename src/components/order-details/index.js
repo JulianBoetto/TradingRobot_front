@@ -1,69 +1,89 @@
-import { Button, Descriptions, PageHeader, Statistic, Tabs } from 'antd';
-import React from 'react';
-const { TabPane } = Tabs;
+import React from "react";
+import "antd/dist/antd.css";
+import { Table, notification, Skeleton, Tag, Card } from "antd";
 
-const renderContent = (column = 2) => (
-  <Descriptions size="small" column={column}>
-    <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
-    <Descriptions.Item label="Association">
-      <a>421421</a>
-    </Descriptions.Item>
-    <Descriptions.Item label="Creation Time">2017-01-10</Descriptions.Item>
-    <Descriptions.Item label="Effective Time">2017-10-10</Descriptions.Item>
-    <Descriptions.Item label="Remarks">
-      Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
-    </Descriptions.Item>
-  </Descriptions>
-);
 
-const extraContent = (
-  <div
-    style={{
-      display: 'flex',
-      width: 'max-content',
-      justifyContent: 'flex-end',
-    }}
-  >
-    <Statistic
-      title="Status"
-      value="Pending"
-      style={{
-        marginRight: 32,
-      }}
-    />
-    <Statistic title="Price" prefix="$" value={568.08} />
-  </div>
-);
+export default class OrderDetails extends React.Component {
+  render() {
+    const {
+      symbol,
+      price,
+      loadingOrder,
+      historic,
+      totalValue
+    } = this.props;
 
-const Content = ({ children, extra }) => (
-  <div className="content">
-    <div className="main">{children}</div>
-    <div className="extra">{extra}</div>
-  </div>
-);
+    const columns = [
+      {
+        title: "Date",
+        dataIndex: "time",
+        render: time => time
+      },
+      {
+        title: "Price",
+        dataIndex: "price",
+        render: price => price
+      },
+      {
+        title: "Side",
+        dataIndex: "isBuyer",
+        render: (_, { isBuyer }) => {
+          let color = "red";
+          let key = "SELL";
+          if (isBuyer) {
+            color = 'green'
+            key = "BUY"
+          }
 
-const OrderDetails = () => (
-  <PageHeader
-    className="site-page-header-responsive"
-    onBack={() => window.history.back()}
-    title="Title"
-    subTitle="This is a subtitle"
-    extra={[
-      <Button key="3">Operation</Button>,
-      <Button key="2">Operation</Button>,
-      <Button key="1" type="primary">
-        Primary
-      </Button>,
-    ]}
-    footer={
-      <Tabs defaultActiveKey="1">
-        <TabPane tab="Details" key="1" />
-        <TabPane tab="Rule" key="2" />
-      </Tabs>
-    }
-  >
-    <Content extra={extraContent}>{renderContent()}</Content>
-  </PageHeader>
-);
+          return (
+            <Tag color={color} key={key}>
+              {key}
+            </Tag>
+          )
+        }
+      },
+      {
+        title: "Quantity",
+        // dataIndex: "qty",
+        render: (_, { qty, commission }) => {
+          // let newQty = Number(qty) - Number(commission);
+          // console.log(Number(qty), Number(commission))
+          return qty
+        }
+      },
+      {
+        title: "Total",
+        dataIndex: "quoteQty",
+        render: quoteQty => quoteQty
+      }
+    ]
 
-export default OrderDetails;
+
+    return (
+      <>
+        {loadingOrder ? (
+          <Skeleton active />
+        ) : (
+          <>
+            <Table
+              columns={columns}
+              dataSource={historic}
+              pagination={{
+                pageSize: 50,
+              }}
+              rowKey={orders => orders.id}
+              scroll={{
+                y: 240,
+              }}
+            />
+
+            <Card type="inner" title="Total" style={ totalValue < 0 ? {color:'red'} : {color:'green'}}>
+              $ {totalValue} USDT
+            </Card>
+
+          </>
+        )}
+      </>
+    );
+  }
+};

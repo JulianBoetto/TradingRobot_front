@@ -3,22 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
-// import App from './App';
-// import LoginLayout from './layouts/Login';
-import Layout from './layout';
-import Login from './pages/public/auth/login';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Router from './router';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/orders' element={<Layout />} />
-      </Routes>
-    </Router>
+  <Router >
+    {/* <Routes>
+      {Loader(window.location.pathname)}
+    </Routes> */}
+  </Router>
   // </React.StrictMode>
 );
 
