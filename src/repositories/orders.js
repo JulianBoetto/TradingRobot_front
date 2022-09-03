@@ -36,4 +36,21 @@ export default class Orders {
       });
     }
   };
+
+  static getHistoricOrder = async (symbol, order) => {
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+
+    try {
+      const res = await axios.post(`${apiUrl}/historic-order/${symbol}`, order, { headers });
+
+      return res.data;
+    } catch (error) {
+      notification.error({
+        message: `Erro: ${error}`,
+      });
+    }
+  };
 };

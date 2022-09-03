@@ -20,7 +20,7 @@ export default class Orders extends React.Component {
     historic: [],
     totalValue: 0,
     loadingWebsocket: true,
-
+    totalQty: 0,
   }
 
   componentDidMount() {
@@ -79,20 +79,43 @@ export default class Orders extends React.Component {
       });
   };
 
-  getOrder = async (symbol) => {
-    this.onConnectWS(symbol)
-    const order = this.state.orders.find(order => order.symbol === symbol)
-
+  getHistoricOrder = async (symbol) => {
+    this.onConnectWS(symbol);
+    this.getOrder(symbol);
     this.setState({ loadingOrder: true, titleModal: symbol, visible: true })
-    OrdersRepository.getOrder(symbol, order)
+    OrdersRepository.getHistoricOrder(symbol)
       .then(data => {
         if (data.historic) {
           this.setState({
-            // actualPrice: data.price,
+            totalQty: data.totalQty,
             historic: data.historic,
             totalValue: data.totalValue,
             loadingOrder: false
           })
+        }
+      })
+      .catch(error => {
+        notification.error({
+          message: `Erro: ${error}`,
+        });
+      })
+      .finally(() => {
+      });
+  };
+
+  getOrder = async (symbol) => {
+    // const order = this.state.orders.find(order => order.symbol === symbol)
+
+    // this.setState({ loadingOrder: true, titleModal: symbol, visible: true })
+    OrdersRepository.getOrder(symbol)
+      .then(data => {
+        if (data.historic) {
+          // this.setState({
+          //   totalQty: data.totalQty,
+          //   historic: data.historic,
+          //   totalValue: data.totalValue,
+          //   loadingOrder: false
+          // })
         }
       })
       .catch(error => {
@@ -130,7 +153,8 @@ export default class Orders extends React.Component {
       actualPrice,
       historic,
       totalValue,
-      loadingWebsocket
+      loadingWebsocket,
+      totalQty
     } = this.state;
 
     const columns = [
@@ -189,7 +213,7 @@ export default class Orders extends React.Component {
         dataIndex: "symbol",
         width: "20%",
         render: symbol => (
-          <Button onClick={() => this.getOrder(symbol)}>
+          <Button onClick={() => this.getHistoricOrder(symbol)}>
             view historic orders
           </Button>
         )
@@ -219,6 +243,7 @@ export default class Orders extends React.Component {
                   totalValue={totalValue}
                   loadingWebsocket={loadingWebsocket}
                   actualPrice={actualPrice}
+                  totalQty={totalQty}
                 />
               )}
             </Modal>
