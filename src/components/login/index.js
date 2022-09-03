@@ -1,10 +1,8 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Spin } from 'antd';
 import Auth from "../../repositories/auth";
+import jwtController from '../../utils/jwt';
 
-const onFinish = (values) => {
-    console.log('Success:', values);
-};
 
 const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -14,17 +12,13 @@ export default class LoginForm extends React.Component {
     state = {
         email: "",
         password: "",
-        loading: true
+        loading: false
     };
 
-    onSubmit = async (event) => {
-        event.preventDefault();
-        const login = await Auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+    onFinish = async (values) => {
+        const login = await Auth.signInWithEmailAndPassword(values);
+        jwtController.compare(login.access_token)
     };
-
-
-
-
 
     render() {
         const {
@@ -38,7 +32,7 @@ export default class LoginForm extends React.Component {
                 initialValues={{
                     remember: true,
                 }}
-                onFinish={onFinish}
+                onFinish={this.onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
@@ -91,9 +85,17 @@ export default class LoginForm extends React.Component {
                         justifyContent: 'center',
                     }}
                 >
-                    <Button ghost htmlType="submit">
-                        Submit
-                    </Button>
+                    {/* {loading ? ( */}
+                        {/* <Spin /> */}
+                    {/* ) : ( */}
+                        <Button
+                            ghost
+                            htmlType="submit"
+                            onClick={() => this.setState({ loading: true })}
+                        >
+                            Submit
+                        </Button>
+                    {/* )} */}
                 </Form.Item>
             </Form>
         );

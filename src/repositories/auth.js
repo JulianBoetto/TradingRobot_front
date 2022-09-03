@@ -24,9 +24,8 @@ const fetchData = async (url, method, accessToken, body, headers = {}) => {
 };
 
 export default class Auth {
-  static signInWithEmailAndPassword = async (email, password) =>
-    fetchData(`${apiUrl}/auth`, 'POST', null, { email, password });
-    // console.log(email, password)
+  static signInWithEmailAndPassword = async (user) =>
+    fetchData(`${apiUrl}/auth`, 'POST', null, { email: user.username, password: user.password });
 
   static signOut = async accessToken =>
     fetchData(`${apiUrl}/auth`, 'DELETE', accessToken, {})
