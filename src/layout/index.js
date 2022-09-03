@@ -3,7 +3,6 @@ import { Breadcrumb, Layout, Menu } from 'antd';
 import React from 'react';
 import Orders from '../pages/orders/orders';
 import Order from '../pages/order/order';
-import colours from "../lib/colours";
 
 
 const { Header, Content, Sider } = Layout;
@@ -29,17 +28,18 @@ const Loader = (path) => {
   // }
 
   var group = path.split("/")[2]
-  switch (path) {
-    case "/orders":
-      return <Orders></Orders>;      
-      // break;
+  // switch (path) {
+  //   case "/orders":
+  //     return <Orders></Orders>;      
+  //     // break;
 
     
   
-    default:
-      return <Order></Order>
-      // break;
-  }
+  //   default:
+  //     return <Order></Order>
+  //     // break;
+  // }
+  return <Orders />
 };
 
 const PrincipalLayout = () => (
