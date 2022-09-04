@@ -2,8 +2,6 @@ import { LaptopOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import React from 'react';
 import Orders from '../pages/orders/orders';
-import Order from '../pages/order/order';
-
 
 const { Header, Content, Sider } = Layout;
 
@@ -23,25 +21,6 @@ const items2 = [LaptopOutlined].map((icon, index) => {
   };
 });
 
-const Loader = (path) => {
-  // if (path === "/orders") {
-  // }
-
-  var group = path.split("/")[2]
-  // switch (path) {
-  //   case "/orders":
-  //     return <Orders></Orders>;      
-  //     // break;
-
-    
-  
-  //   default:
-  //     return <Order></Order>
-  //     // break;
-  // }
-  return <Orders />
-};
-
 const PrincipalLayout = () => (
   <Layout
     style={{
@@ -50,7 +29,6 @@ const PrincipalLayout = () => (
     }}>
     <Header className="header">
       <img src='logo.png' style={{ height: "50px" }}/>
-      {/* <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} /> */}
     </Header>
     <Layout>
       <Sider width={200} className="site-layout-background">
@@ -88,7 +66,7 @@ const PrincipalLayout = () => (
             maxHeight: "100vh"
           }}
         >
-          {Loader(window.location.pathname)}
+          <Orders />
         </Content>
       </Layout>
     </Layout>

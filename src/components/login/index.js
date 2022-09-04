@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { Button, Form, Input, Spin } from 'antd';
 import Auth from "../../repositories/auth";
 import jwtController from '../../utils/jwt';
@@ -7,6 +8,7 @@ import jwtController from '../../utils/jwt';
 const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
+
 
 export default class LoginForm extends React.Component {
     state = {
@@ -19,6 +21,7 @@ export default class LoginForm extends React.Component {
         const login = await Auth.signInWithEmailAndPassword(values);
         jwtController.compare(login.access_token)
     };
+
 
     render() {
         const {
@@ -86,15 +89,14 @@ export default class LoginForm extends React.Component {
                     }}
                 >
                     {/* {loading ? ( */}
-                        {/* <Spin /> */}
+                    {/* <Spin /> */}
                     {/* ) : ( */}
-                        <Button
-                            ghost
-                            htmlType="submit"
-                            onClick={() => this.setState({ loading: true })}
-                        >
-                            Submit
-                        </Button>
+                    <Button
+                        ghost
+                        htmlType="submit"
+                    >
+                        <Link to="/orders">orders</Link>
+                    </Button>
                     {/* )} */}
                 </Form.Item>
             </Form>
