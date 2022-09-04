@@ -4,7 +4,9 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import Dashboard from '../components/dashboard';
 import IndexLayout from '../layout/index';
+import Orders from '../pages/orders/orders';
 import Login from "../pages/public/auth/login/index";
 
 const Loader = (path) => {
@@ -25,8 +27,8 @@ class Router extends React.Component {
       // </>
       <BrowserRouter>
         <Routes>
-          <Route path='/*' element={<Login />}/>
-          <Route path='/orders' element={<IndexLayout />}/>
+          <Route path='/' element={<Login />} />
+          <Route path='/dashboard' element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     );

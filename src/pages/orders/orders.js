@@ -167,11 +167,11 @@ export default class Orders extends React.Component {
       {
         title: "Pair",
         dataIndex: "symbol",
-        render: symbol => (
-          <BrowserRouter>
-            <Link to={`order/${symbol.toLowerCase()}`}>{symbol}</Link>
-          </BrowserRouter >
-        ),
+        // render: symbol => (
+        //   <BrowserRouter>
+        //     <Link to={`order/${symbol.toLowerCase()}`}>{symbol}</Link>
+        //   </BrowserRouter >
+        // ),
         width: "20%",
       },
       {

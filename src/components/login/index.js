@@ -88,16 +88,12 @@ export default class LoginForm extends React.Component {
                         justifyContent: 'center',
                     }}
                 >
-                    {/* {loading ? ( */}
-                    {/* <Spin /> */}
-                    {/* ) : ( */}
                     <Button
                         ghost
                         htmlType="submit"
                     >
-                        <Link to="/orders">orders</Link>
+                        <Link to="/dashboard">Login</Link>
                     </Button>
-                    {/* )} */}
                 </Form.Item>
             </Form>
         );
