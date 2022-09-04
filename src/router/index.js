@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import App from '../App';
 import Dashboard from '../components/dashboard';
 import IndexLayout from '../layout/index';
 import Orders from '../pages/orders/orders';

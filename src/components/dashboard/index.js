@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import "./Dashboard.css";
 import Orders from '../../pages/orders/orders';
+import App from '../../App';
+import ApexChart from '../chart';
 
 const { Header, Content, Sider } = Layout;
 
@@ -97,9 +99,13 @@ const Dashboard = () => {
                                 </button>
                             </div> */}
                         </div>
-
-                        <canvas className="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-
+                            <ApexChart />
+                        
+                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                        <h1 className="h2">Orders</h1>
+                    
+                    </div>    
+                            
 
                             <Orders />
 
