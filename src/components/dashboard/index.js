@@ -1,18 +1,9 @@
-import React from 'react';
-import { Breadcrumb, Layout, Menu } from 'antd';
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    Outlet,
-    Link
-} from "react-router-dom";
+import React, { useState } from 'react';
 import "./Dashboard.css";
 import Orders from '../../pages/orders/orders';
-import App from '../../App';
 import ApexChart from '../chart';
-
-const { Header, Content, Sider } = Layout;
+import Candles from '../../repositories/candles';
+import { Spin } from 'antd';
 
 const Loader = (path) => {
     // if (path === "/orders") {
@@ -35,9 +26,21 @@ const Loader = (path) => {
     // return <Orders />
 };
 
+
+
+const loading = false;
+
+
 const Dashboard = () => {
+    // const [series, setSeries] = useState();
 
-
+    // Candles.getKlines({ symbol: "BTCUSDT", interval: "1m" })
+    //     .then(res => {
+    //         console.log(res)
+    //         // setSeries(res)
+    //         setStateLoading(false)
+    //     })
+    //     .catch(error => console.log(error))
 
 
     return (
@@ -99,15 +102,21 @@ const Dashboard = () => {
                                 </button>
                             </div> */}
                         </div>
-                            <ApexChart />
-                        
-                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-                        <h1 className="h2">Orders</h1>
-                    
-                    </div>    
-                            
+                        {
+                            loading ? (
+                                <Spin />
+                            ) : (
+                                <ApexChart />
+                            )
+                        }
 
-                            <Orders />
+                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                            <h1 className="h2">Orders</h1>
+
+                        </div>
+
+
+                        <Orders />
 
 
                     </main>

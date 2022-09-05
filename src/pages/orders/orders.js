@@ -6,7 +6,7 @@ import { Link, BrowserRouter } from 'react-router-dom';
 import OrderDetails from "../../components/order-details";
 let ws;
 
-export default class Orders extends React.Component {
+export default class Orders extends React.Component { //
   state = {
     orders: null,
     order: [],
