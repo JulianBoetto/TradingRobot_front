@@ -4,6 +4,12 @@ import Orders from '../../pages/orders/orders';
 import ApexChart from '../chart';
 import Candles from '../../repositories/candles';
 import { Spin } from 'antd';
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+    Link
+} from "react-router-dom";
 
 const Loader = (path) => {
     // if (path === "/orders") {
@@ -61,17 +67,17 @@ const Dashboard = () => {
                     <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                         <div className="position-sticky pt-3 sidebar-sticky">
                             <ul className="nav flex-column">
-                                {/* <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page">
-                                        <span data-feather="home" className="align-text-bottom"></span>
-                                        Dashboard
-                                    </a>
-                                </li> */}
                                 <li className="nav-item">
-                                    <a className="nav-link">
+                                    <Link className="nav-link" to="/dashboard/orders">
                                         <span data-feather="file" className="align-text-bottom"></span>
                                         Orders
-                                    </a>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link active" aria-current="page" to="/dashboard/chart">
+                                        <span data-feather="home" className="align-text-bottom"></span>
+                                        Chart
+                                    </Link>
                                 </li>
 
                             </ul>
@@ -110,15 +116,35 @@ const Dashboard = () => {
                             )
                         } */}
 
-                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-                            <h1 className="h2">Orders</h1>
-
-                        </div>
-
-
-                        <Orders />
-
-
+                        <Routes>
+                            <Route
+                                path="/orders"
+                                element={
+                                    <>
+                                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                                            <h1 className="h2">Orders</h1>
+                                        </div>
+                                        <Orders />
+                                    </>
+                                }
+                            />
+                            <Route
+                                path="/chart"
+                                element={
+                                    <>
+                                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                                            <h1 className="h2">Chart</h1>
+                                        </div>
+                                        {
+                                            loading ? (
+                                                <Spin />
+                                            ) : (
+                                                <ApexChart />
+                                            )
+                                        }
+                                    </>
+                                } />
+                        </Routes>
                     </main>
                 </div>
             </div>

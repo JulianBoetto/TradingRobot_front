@@ -7,7 +7,11 @@ const gridStyle = {
   textAlign: 'center',
 };
 
+
+
 export default class OrderDetails extends React.Component {
+
+
   render() {
     const {
       symbol,
@@ -131,7 +135,7 @@ export default class OrderDetails extends React.Component {
                   }}
                 />
                 <Card type="inner" title="Total" style={totalValue < 0 ? { color: 'red' } : { color: 'green' }}>
-                  
+
                   <Card.Grid style={gridStyle}>$ {totalValue} USDT</Card.Grid>
                   <Card.Grid style={gridStyle}>{totalQty}</Card.Grid>
                 </Card>

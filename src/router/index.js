@@ -11,13 +11,13 @@ import Orders from '../pages/orders/orders';
 import Login from "../pages/public/auth/login/index";
 
 const Loader = (path) => {
-  switch (path) {
-    case "/orders":
-      return <IndexLayout />;
+  // switch (path) {
+  //   case "/orders":
+  //     return <IndexLayout />;
 
-    default:
-      return <Login />
-  }
+  //   default:
+  //     return <Login />
+  // }
 };
 
 class Router extends React.Component {
@@ -29,7 +29,9 @@ class Router extends React.Component {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/dashboard/*' element={<Dashboard />} >
+            {/* <Route path='orders' element={<Orders />} /> */}
+          </Route>
         </Routes>
       </BrowserRouter>
     );
