@@ -1,52 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./Dashboard.css";
 import Orders from '../../pages/orders/orders';
 import ApexChart from '../chart';
 import Candles from '../../repositories/candles';
+import Candle from '../../utils/candle';
 import { Spin } from 'antd';
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import {
-    BrowserRouter,
     Routes,
     Route,
     Link
 } from "react-router-dom";
 
-const Loader = (path) => {
-    // if (path === "/orders") {
-    // }
+function Dashboard() {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [symbol, setSymbol] = useState("BTCUSDT");
+    const [interval, setStateInterval] = useState("1m");
 
+    const onSymbolChange = (event) => {
+        setSymbol(event.target.value)
+    }
 
-    // switch (path) {
-    //     case "/orders":
-    //         return <Orders></Orders>;
-    //     // break;
+    const onIntervalChange = (event) => {
+        setStateInterval(event.target.value)
+    }
 
+    useEffect(() => {
+        !loading ?? setLoading(true);
+        Candles.getKlines({ symbol, interval })
+            .then(res => {
+                setData(res);
+                setLoading(false);
+            })
+            .catch(error => console.log(error));
+    }, [symbol, interval],);
 
+    const { lastJsonMessage } = useWebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLocaleLowerCase()}@kline_${interval}`, {
+    onOpen: () => console.log("Connected to Binance"),
+    onError: (err) => console.log(err),    
+    shouldReconnect: () => 3000,
+    onMessage: () => {
+      if (lastJsonMessage) {
+        const newCandle = new Candle(lastJsonMessage.k.t, lastJsonMessage.k.o, lastJsonMessage.k.h, lastJsonMessage.k.l, lastJsonMessage.k.c)
+        let newData = [...data];
 
-    //     default:
-    //         return <>
-    //             
-    //         </>
-    //     // break;
-    // }
-    // return <Orders />
-};
-
-
-
-const loading = false;
-
-
-const Dashboard = () => {
-    // const [series, setSeries] = useState();
-
-    // Candles.getKlines({ symbol: "BTCUSDT", interval: "1m" })
-    //     .then(res => {
-    //         console.log(res)
-    //         // setSeries(res)
-    //         setStateLoading(false)
-    //     })
-    //     .catch(error => console.log(error))
+        if(lastJsonMessage.k.x === false) {
+          newData[newData.length - 1] = newCandle;
+        } else {
+          newData.splice(0, 1);
+          newData.push(newCandle);
+        }
+        setData(newData);
+      }
+    },
+  });
 
 
     return (
@@ -79,43 +87,11 @@ const Dashboard = () => {
                                         Chart
                                     </Link>
                                 </li>
-
                             </ul>
-                            <div>
-
-                                {/* <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-                                    <span>Saved reports</span>
-                                    <a className="link-secondary" href="#" aria-label="Add a new report">
-                                        <span data-feather="plus-circle" className="align-text-bottom"></span>
-                                    </a>
-                                </h6> */}
-
-                            </div>
                         </div>
                     </nav>
 
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                        {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 className="h2">Dashboard</h1>
-                            <div className="btn-toolbar mb-2 mb-md-0">
-                                <div className="btn-group me-2">
-                                    <button type="button" className="btn btn-sm btn-outline-secondary">Share</button>
-                                    <button type="button" className="btn btn-sm btn-outline-secondary">Export</button>
-                                </div>
-                                <button type="button" className="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                    <span data-feather="calendar" className="align-text-bottom"></span>
-                                    This week
-                                </button>
-                            </div>
-                        </div> */}
-                        {/* {
-                            loading ? (
-                                <Spin />
-                            ) : (
-                                <ApexChart />
-                            )
-                        } */}
-
                         <Routes>
                             <Route
                                 path="/orders"
@@ -135,13 +111,33 @@ const Dashboard = () => {
                                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                                             <h1 className="h2">Chart</h1>
                                         </div>
-                                        {
-                                            loading ? (
+                                        <div id="chart">
+                                            <div className="container">
+                                                <div className="row">
+                                                    <select className="form-select m-3" onChange={onSymbolChange}>
+                                                        <option value="BTCUSDT">BTC/USDT</option>
+                                                        <option value="ETHUSDT">ETH/USDT</option>
+                                                        <option value="ETCUSDT">ETC/USDT</option>
+                                                    </select>
+
+                                                </div>
+                                                <div className="row">
+                                                    <select className="form-select m-3" onChange={onIntervalChange}>
+                                                        <option value="1m">1m</option>
+                                                        <option value="15m">15m</option>
+                                                        <option value="1d">1d</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {loading ? (
                                                 <Spin />
                                             ) : (
-                                                <ApexChart />
-                                            )
-                                        }
+                                                <ApexChart
+                                                    data={data}
+                                                    loading={loading}
+                                                />
+                                            )}
+                                        </div>
                                     </>
                                 } />
                         </Routes>
@@ -149,7 +145,7 @@ const Dashboard = () => {
                 </div>
             </div>
         </>
-    );
-};
+    )
+}
 
 export default Dashboard;
