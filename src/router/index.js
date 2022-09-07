@@ -32,6 +32,7 @@ class Router extends React.Component {
           <Route path='/dashboard/*' element={<Dashboard />} >
             {/* <Route path='orders' element={<Orders />} /> */}
           </Route>
+          <Route path='/*' element={<Login />} />
         </Routes>
       </BrowserRouter>
     );

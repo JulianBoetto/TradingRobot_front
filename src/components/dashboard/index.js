@@ -12,7 +12,7 @@ import {
     Link
 } from "react-router-dom";
 
-function Dashboard() {
+function Dashboard(props) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [symbol, setSymbol] = useState("BTCUSDT");
@@ -37,24 +37,24 @@ function Dashboard() {
     }, [symbol, interval],);
 
     const { lastJsonMessage } = useWebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLocaleLowerCase()}@kline_${interval}`, {
-    onOpen: () => console.log("Connected to Binance"),
-    onError: (err) => console.log(err),    
-    shouldReconnect: () => 3000,
-    onMessage: () => {
-      if (lastJsonMessage) {
-        const newCandle = new Candle(lastJsonMessage.k.t, lastJsonMessage.k.o, lastJsonMessage.k.h, lastJsonMessage.k.l, lastJsonMessage.k.c)
-        let newData = [...data];
+        onOpen: () => console.log("Connected to Binance"),
+        onError: (err) => console.log(err),
+        shouldReconnect: () => 3000,
+        onMessage: () => {
+            if (lastJsonMessage) {
+                const newCandle = new Candle(lastJsonMessage.k.t, lastJsonMessage.k.o, lastJsonMessage.k.h, lastJsonMessage.k.l, lastJsonMessage.k.c)
+                let newData = [...data];
 
-        if(lastJsonMessage.k.x === false) {
-          newData[newData.length - 1] = newCandle;
-        } else {
-          newData.splice(0, 1);
-          newData.push(newCandle);
-        }
-        setData(newData);
-      }
-    },
-  });
+                if (lastJsonMessage.k.x === false) {
+                    newData[newData.length - 1] = newCandle;
+                } else {
+                    newData.splice(0, 1);
+                    newData.push(newCandle);
+                }
+                setData(newData);
+            }
+        },
+    });
 
 
     return (
@@ -65,7 +65,7 @@ function Dashboard() {
                 <input className="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search" />
                 <div className="navbar-nav">
                     <div className="nav-item text-nowrap">
-                        <a className="nav-link px-3" href="/login">Sign out</a>
+                        <Link className="nav-link px-3" to={"/"}>Sign out</Link>
                     </div>
                 </div>
             </header>
@@ -100,7 +100,9 @@ function Dashboard() {
                                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                                             <h1 className="h2">Orders</h1>
                                         </div>
-                                        <Orders />
+                                        <Orders
+                                            symbol={symbol}
+                                        />
                                     </>
                                 }
                             />
