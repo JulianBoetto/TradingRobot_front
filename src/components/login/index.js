@@ -22,7 +22,7 @@ const LoginForm = () => {
     return (
         <>
             <form className="form-signin" onSubmit={onSubmit}>
-                <img className="mb-4" src="logo.png" alt="Logo Trading Robot" style={{ width: "72px", height: "72px" }} />
+                <img className="mb-4" src="/logo.png" alt="Logo Trading Robot" style={{ width: "72px", height: "72px" }} />
                 <input
                     type="email"
                     id="inputEmail"
