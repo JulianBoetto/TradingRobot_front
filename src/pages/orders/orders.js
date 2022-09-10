@@ -77,24 +77,24 @@ function Orders() {
     // const order = this.state.orders.find(order => order.symbol === symbol)
 
     // this.setState({ loadingOrder: true, titleModal: symbol, visible: true })
-    OrdersRepository.getOrder(symbol)
-      .then(data => {
-        if (data.historic) {
-          // this.setState({
-          //   totalQty: data.totalQty,
-          //   historic: data.historic,
-          //   totalValue: data.totalValue,
-          //   loadingOrder: false
-          // })
-        }
-      })
-      .catch(error => {
-        notification.error({
-          message: `Erro: ${error}`,
-        });
-      })
-      .finally(() => {
-      });
+    // OrdersRepository.getOrder(symbol)
+    //   .then(data => {
+    //     if (data.historic) {
+    //       // this.setState({
+    //       //   totalQty: data.totalQty,
+    //       //   historic: data.historic,
+    //       //   totalValue: data.totalValue,
+    //       //   loadingOrder: false
+    //       // })
+    //     }
+    //   })
+    //   .catch(error => {
+    //     notification.error({
+    //       message: `Erro: ${error}`,
+    //     });
+    //   })
+    //   .finally(() => {
+    //   });
   };
 
   const getHistoricOrder = async (symbol) => {

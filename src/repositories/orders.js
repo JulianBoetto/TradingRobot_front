@@ -10,7 +10,7 @@ export default class Orders {
     };
 
     try {
-      const res = await axios.get(`${apiUrl}/orders`, datas, { headers });
+      const res = await axios.get(`${apiUrl}/order/allOrders`, datas, { headers });
 
       return res.data;
     } catch (error) {
@@ -28,7 +28,6 @@ export default class Orders {
 
     try {
       const res = await axios.post(`${apiUrl}/order/${symbol}`, order, { headers });
-
       return res.data;
     } catch (error) {
       notification.error({
@@ -44,7 +43,7 @@ export default class Orders {
     };
 
     try {
-      const res = await axios.post(`${apiUrl}/historic-order/${symbol}`, order, { headers });
+      const res = await axios.post(`${apiUrl}/order/historic/${symbol}`, order, { headers });
 
       return res.data;
     } catch (error) {

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import Login from "../pages/public/auth/login/index";
 
 const useAuth = () => {
@@ -8,7 +8,7 @@ const useAuth = () => {
 
 const ProtectedRoutes = () => {
     const isAuth = useAuth();
-    return isAuth ? <Outlet /> : <Login />;
+    return isAuth ? <Outlet /> : <Navigate to={"/dashboard/orders"} />;
 }
 
 export default ProtectedRoutes;
