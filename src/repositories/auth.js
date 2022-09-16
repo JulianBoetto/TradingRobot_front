@@ -27,22 +27,7 @@ export default class Auth {
   static signInWithEmailAndPassword = async (user) =>
     fetchData(`${apiUrl}/auth`, 'POST', null, { email: user.email, password: user.password });
 
-  static signOut = async accessToken =>
-    fetchData(`${apiUrl}/auth`, 'DELETE', accessToken, {})
-      .then(object => object)
-      .catch(error => error);
-
-  static getCurrentUser = async accessToken =>
-    fetchData(`${apiUrl}/auth/me`, 'GET', accessToken);
-
-  static forgotPassword = async email =>
-    fetchData(`${apiUrl}/auth/forgot_password `, 'POST', null, { email });
-
-  static resetPassword = async (new_password, accessToken) => {
-    const encodedURI = encodeURIComponent(JSON.stringify({ "accessToken": accessToken }));
-    const query = `?q=${encodedURI}`;
-
-    fetchData(`${apiUrl}/auth/reset_password/${query}`, 'POST', accessToken, { new_password });
-  }
-
+  static validateAccess = async (token) =>
+    fetchData(`${apiUrl}/verify`, 'POST');
 }
+

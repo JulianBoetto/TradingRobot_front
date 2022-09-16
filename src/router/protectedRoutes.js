@@ -1,12 +1,11 @@
 import { Navigate, Outlet, Route } from "react-router-dom";
 import Login from "../pages/public/auth/login/index";
-import auth from "../services/auth";
+import { verify } from "../services/auth"
 
 const ProtectedRoutes = (props) => {
-    console.log(props, "ok")
-    const isAuth = { token: false};
+    const isAuth = verify();
     return (
-        isAuth.token
+        isAuth
             ?
             <Outlet />
             :

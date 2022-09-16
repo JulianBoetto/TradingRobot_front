@@ -1,28 +1,20 @@
 import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Form, Input, Spin } from 'antd';
-import Auth from "../../repositories/auth";
-import jwtController from '../../utils/jwt';
-
+import { auth } from '../../services/auth';
 
 const LoginForm = () => {
-    let navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    // const [ token, setToken ] = useContext();
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const login = await Auth.signInWithEmailAndPassword({ email, password });
-        login ?? localStorage.setItem("TOKEN", login.access_token)
+        auth(email, password);
     };
 
     return (
         <>
             <div>
-
             </div>
             <form className="form-signin" onSubmit={onSubmit}>
                 <div className="col d-flex justify-content-center">
@@ -34,7 +26,7 @@ const LoginForm = () => {
                     className="form-control mb-4"
                     placeholder="Email address"
                     required=""
-                onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                     type="password"
@@ -42,7 +34,7 @@ const LoginForm = () => {
                     className="form-control mb-4"
                     placeholder="Password"
                     required=""
-                   onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className="checkbox mb-3">
                     {/* <label>
@@ -53,7 +45,7 @@ const LoginForm = () => {
                     <button
                         className="btn btn-lg btn-success btn-block mb-4"
                         type="submit"
-                        // onClick={() => navigate("/dashboard")}
+                    // onClick={() => navigate("/dashboard")}
                     >
                         Sign in
                     </button>
