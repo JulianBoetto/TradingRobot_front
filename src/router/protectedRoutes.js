@@ -1,14 +1,17 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, Route } from "react-router-dom";
 import Login from "../pages/public/auth/login/index";
+import auth from "../services/auth";
 
-const useAuth = () => {
-    const user = { loggedIn: false };
-    return user && user.loggedIn;
-};
-
-const ProtectedRoutes = () => {
-    const isAuth = useAuth();
-    return isAuth ? <Outlet /> : <Navigate to={"/dashboard/orders"} />;
+const ProtectedRoutes = (props) => {
+    console.log(props, "ok")
+    const isAuth = { token: false};
+    return (
+        isAuth.token
+            ?
+            <Outlet />
+            :
+            <Navigate to={"/"} />
+    )
 }
 
 export default ProtectedRoutes;
