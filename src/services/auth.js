@@ -21,7 +21,6 @@ async function renew() {
 
 
   // return sessionStorage.getItem("ACCESS_TOKEN") !== null;
-  console.log("renew")
 }
 
 async function verify() {

@@ -3,7 +3,7 @@ import "antd/dist/antd.css";
 import { Table, notification, Skeleton, Tag, Button, Spin, Modal } from "antd";
 import OrdersRepository from "../../repositories/orders";
 import { Link, BrowserRouter } from 'react-router-dom';
-import OrderDetails from "../../components/order-details";
+import OrderDetails from "../order-details";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 
 
@@ -24,9 +24,9 @@ function Orders() {
   const [isOpenWS, setIsOpenWS] = useState(true);
   let ws;
 
-  
-  
-  
+
+
+
   // const { lastJsonMessage, sendJsonMessage } = useWebSocket(`wss://stream.binance.com:9443/ws/ticker`, {
   //   onOpen: () => console.log("Connected to Binance"),
   //   onError: (err) => console.log(err),    
@@ -56,10 +56,10 @@ function Orders() {
   }
 
   const getOrders = async () => {
-    OrdersRepository.getOrders()
+    const token = sessionStorage.getItem("ACCESS_TOKEN");
+    OrdersRepository.getOrders(token)
       .then(data => {
         if (data) {
-          console.log(data)
           setOrders(data);
           setLoading(false);
         }
@@ -98,14 +98,15 @@ function Orders() {
   };
 
   const getHistoricOrder = async (symbol) => {
-    
+    const token = sessionStorage.getItem("ACCESS_TOKEN");
+
     // !isOpenWS ?? setIsOpenWS(true);
     // onConnectWS(symbol);
     getOrder(symbol);
     setLoadingOrder(true);
     setTitleModal(symbol);
     setVisible(true);
-    OrdersRepository.getHistoricOrder(symbol)
+    OrdersRepository.getHistoricOrder(symbol, token)
       .then(data => {
         if (data.historic) {
           setTotalQty(data.totalQty);

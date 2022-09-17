@@ -11,11 +11,9 @@ const LoginForm = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        // setLoading(true);
         const isAuth = await auth(email, password);
         if(isAuth) {
             navigate("/dashboard");
-            console.log("/dashboard")
         }
     };
 

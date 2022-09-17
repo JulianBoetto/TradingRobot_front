@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { apiUrl } from '../defaultValues';
-import { notification } from "antd"
+import { notification } from "antd";
 
 export default class Orders {
-  static getOrders = async (datas, accessToken) => {
+  static getOrders = async (accessToken) => {
     const headers = {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
+      Authorization: `Bearer ${accessToken}`
+    }
 
     try {
-      const res = await axios.get(`${apiUrl}/order/allOrders`, datas, { headers });
+      const res = await axios.post(`${apiUrl}/order/allOrders`, null, { headers })
 
       return res.data;
     } catch (error) {
@@ -20,11 +20,11 @@ export default class Orders {
     }
   };
 
-  static getOrder = async (symbol, order) => {
+  static getOrder = async (symbol, order, accessToken) => {
     const headers = {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
+      Authorization: `Bearer ${accessToken}`
+    }
 
     try {
       const res = await axios.post(`${apiUrl}/order/${symbol}`, order, { headers });
@@ -36,14 +36,14 @@ export default class Orders {
     }
   };
 
-  static getHistoricOrder = async (symbol, order) => {
+  static getHistoricOrder = async (symbol, accessToken) => {
     const headers = {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
+      Authorization: `Bearer ${accessToken}`
+    }  
 
     try {
-      const res = await axios.post(`${apiUrl}/order/historic/${symbol}`, order, { headers });
+      const res = await axios.post(`${apiUrl}/order/historic/${symbol}`, null, { headers });
 
       return res.data;
     } catch (error) {

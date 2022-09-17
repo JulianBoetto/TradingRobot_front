@@ -6,8 +6,8 @@ export default class Candles {
   static getKlines = async (data, accessToken) => {
     const headers = {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
+      Authorization: `Bearer ${accessToken}`
+    }
 
     try {
       const res = await axios.post(`${apiUrl}/klines`, data, { headers });

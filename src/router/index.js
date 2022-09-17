@@ -6,10 +6,10 @@ import {
 } from "react-router-dom";
 import ApexChart from '../components/chart';
 import Dashboard from '../components/dashboard';
-import Orders from '../pages/orders/orders';
+import Orders from '../components/orders/orders';
 import Login from "../pages/public/auth/login/index";
 import ProtectedRoutes from './protectedRoutes';
-import { auth, verify } from '../services/auth';
+import { verify } from '../services/auth';
 
 class Router extends React.Component {
   render() {

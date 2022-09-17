@@ -41,7 +41,8 @@ export default function ApexChart() {
 
   useEffect(() => {
     !loading ?? setLoading(true);
-    Candles.getKlines({ symbol, interval })
+    const token = sessionStorage.getItem("ACCESS_TOKEN");
+    Candles.getKlines({ symbol, interval }, token)
       .then(res => {
         setData(res);
         setLoading(false);

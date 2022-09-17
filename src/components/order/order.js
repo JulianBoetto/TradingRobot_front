@@ -2,10 +2,6 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Skeleton} from "antd";
 
-
-
-// console.log(client)
-
 export default class Order extends React.Component {
   state = {
     order: [],
@@ -16,7 +12,7 @@ export default class Order extends React.Component {
 
   componentDidMount() {
     // this.getOrder();
-    this.onConnectWS("etcusdt");
+    // this.onConnectWS("etcusdt");
   };
 
   
