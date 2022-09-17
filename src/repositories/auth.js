@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import { apiUrl } from '../defaultValues';
 
 const _ = require('lodash');
@@ -18,7 +19,9 @@ const fetchData = async (url, method, accessToken, body, headers = {}) => {
   }
 
   return fetch(url, params).then(response => {
-    if (response.status !== 200) return Promise.reject(response);
+    if (response.status !== 200) return notification.error({
+      message: 'User or password invalid'
+    });
     return response.json();
   });
 };

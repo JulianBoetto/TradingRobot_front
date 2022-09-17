@@ -1,9 +1,9 @@
-import { Navigate, Outlet, Route } from "react-router-dom";
-import Login from "../pages/public/auth/login/index";
-import { verify } from "../services/auth"
 
-const ProtectedRoutes = (props) => {
-    const isAuth = verify();
+import { Navigate, Outlet } from "react-router-dom";
+
+const ProtectedRoutes = () => {
+    const isAuth = sessionStorage.getItem("ACCESS_TOKEN") !== null;
+
     return (
         isAuth
             ?

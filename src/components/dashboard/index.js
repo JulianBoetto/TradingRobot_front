@@ -1,10 +1,10 @@
 import React from 'react';
 import "./Dashboard.css";
-
 import {
     Link,
     Outlet
 } from "react-router-dom";
+import { logout } from '../../services/auth';
 
 function Dashboard(props) {
 
@@ -16,7 +16,18 @@ function Dashboard(props) {
                 <input className="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search" />
                 <div className="navbar-nav">
                     <div className="nav-item text-nowrap">
-                        <Link className="nav-link px-3" to={"/"}>Sign out</Link>
+                        {/* <Link
+                            className="nav-link px-3"
+                            to={"/"}
+                            onClick={()=>logout}
+                        >Sign out</Link> */}
+                        <a
+                            className="nav-link px-3"
+                            onClick={logout}
+                            href="/"
+                        >
+                            Logout
+                        </a>
                     </div>
                 </div>
             </header>
@@ -43,7 +54,7 @@ function Dashboard(props) {
                     </nav>
 
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    <Outlet />
+                        <Outlet />
                         {/* <Routes>
                             <Route
                                 path="/orders"

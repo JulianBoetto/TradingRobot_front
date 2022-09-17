@@ -1,8 +1,15 @@
 import Auth from '../repositories/auth';
+import { useNavigate } from 'react-router-dom';
 
 async function auth(email, password) {
   const login = await Auth.signInWithEmailAndPassword({ email, password });
-  sessionStorage.setItem("ACCESS_TOKEN", login.access_token);
+  if(!login || !login.access_token) {
+    sessionStorage.clear();
+    return false
+  } else {
+    sessionStorage.setItem("ACCESS_TOKEN", login.access_token);
+    return sessionStorage.getItem("ACCESS_TOKEN") !== null;
+  }
 }
 
 async function renew() {
@@ -17,9 +24,12 @@ async function renew() {
   console.log("renew")
 }
 
-function verify() {
-  sessionStorage.getItem("ACCESS_TOKEN");
-  return sessionStorage.getItem("ACCESS_TOKEN") !== null
+async function verify() {
+  return sessionStorage.getItem("ACCESS_TOKEN") !== null;
 }
 
-export { auth, renew, verify };
+function logout() {
+  sessionStorage.clear();
+}
+
+export { auth, renew, verify, logout };
