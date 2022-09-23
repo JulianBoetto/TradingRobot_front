@@ -8,6 +8,7 @@ import ApexChart from '../components/chart';
 import Dashboard from '../components/dashboard';
 import Orders from '../components/orders/orders';
 import Login from "../pages/public/auth/login/index";
+import Notifications from '../components/notifications/Notifications';
 import ProtectedRoutes from './protectedRoutes';
 import { verify } from '../services/auth';
 
@@ -21,6 +22,7 @@ class Router extends React.Component {
             <Route path='/dashboard' element={<Dashboard />} >
               <Route path='orders' element={<Orders />} />
               <Route path='chart' element={<ApexChart />} />
+              <Route path='notifications' element={<Notifications />} />
             </Route>
           </Route>
           <Route

@@ -49,6 +49,12 @@ function Dashboard(props) {
                                         Chart
                                     </Link>
                                 </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link active" aria-current="page" to="/dashboard/notifications">
+                                        <span data-feather="home" className="align-text-bottom"></span>
+                                        Notifications
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                     </nav>
