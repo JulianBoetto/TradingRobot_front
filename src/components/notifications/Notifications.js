@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Button,
     notification,
     Spin,
     Modal,
@@ -8,6 +7,7 @@ import {
     Input
 } from 'antd';
 import Symbols from "../../repositories/symbols";
+import Button from 'react-bootstrap/Button';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 
@@ -124,7 +124,7 @@ function Notifications() {
                             <label htmlFor="listGroupCheckableRadios1">
                                 {el.symbol}/{el.pair}
                                 <span className="d-block small opacity-50"></span>
-                                <Button value={`${el.symbol}/${el.pair}`} onClick={() => showConfirm(el.symbol, el.pair)} type="danger">Remove</Button>
+                                <Button value={`${el.symbol}/${el.pair}`} onClick={() => showConfirm(el.symbol, el.pair)} variant="danger">Remove</Button>
                             </label>
                         </div>
                     ))
