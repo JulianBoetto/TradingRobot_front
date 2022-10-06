@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import ReactApexChart from "react-apexcharts";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import Candles from '../../repositories/candles';
 import Candle from '../../utils/candle';
 import { Spin } from 'antd';
+import { ChartComponent } from "./chart";
 
 export default function ApexChart() {
   const [data, setData] = useState([]);
@@ -40,6 +40,7 @@ export default function ApexChart() {
   });
 
   useEffect(() => {
+    console.log("ok")
     !loading ?? setLoading(true);
     const token = sessionStorage.getItem("ACCESS_TOKEN");
     Candles.getKlines({ symbol, interval }, token)
@@ -50,28 +51,8 @@ export default function ApexChart() {
       .catch(error => console.log(error));
   }, [symbol, interval],);
 
-  const options = {
-    chart: {
-      type: 'candlestick',
-      height: 350
-    },
-    title: {
-      text: '',
-      align: 'left'
-    },
-    xaxis: {
-      type: 'datetime'
-    },
-    yaxis: {
-      tooltip: {
-        enabled: true
-      }
-    }
-  };
 
-  const series = [{
-    data: data
-  }];
+
 
   return (
     <>
@@ -99,7 +80,7 @@ export default function ApexChart() {
         {loading ? (
           <Spin />
         ) : (
-          <ReactApexChart options={options} series={series} type="candlestick" height={350} />
+          <ChartComponent data={data} />
         )}
       </div>
     </>
